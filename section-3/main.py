@@ -1,4 +1,4 @@
-from database import add_entry, get_entries
+from database import create_table, add_entry, get_entries, close_db_connection
 
 menu = """\nPlease select one of the following options: 
  1) Add new entry
@@ -16,11 +16,12 @@ def new_entry():
     
 
 def view_entries(entries):
-    print(f"Here are the {len(entries)} etries you asked for\n")
+    print(f"\n\033[4mThere are {len(entries)} entries ... \033[0m")
     for entry in entries:
-        print(f"{entry['date']} - {entry['content']}")
+        print(f"{entry[1]} - {entry[0]}")
 
 print(welcome_message)
+create_table()
 
 while (user_selection := input(menu)) !="3":
     if user_selection == "1":
@@ -31,3 +32,5 @@ while (user_selection := input(menu)) !="3":
         
     else:
         print("You pressed an invalid option")
+        
+close_db_connection()
