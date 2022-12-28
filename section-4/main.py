@@ -29,9 +29,17 @@ def display_upcoming_movies(heading, movies):
     print("---\n")
 
 
+def display_watched_movies(username, movies):
+    print(f"{username}'s Watched Movies List")
+    for movie in movies:
+        print(f"{movie[1]}")
+    print("---\n")
+
+
 def watch_movie():
+    username = input("Username: ")
     title = input("What movie do you want to watch? ")
-    database.watch_movie(title)
+    database.watch_movie(username, title)
 
 print(welcome_message)
 database.create_tables()
@@ -48,7 +56,8 @@ while (user_input := input(menu)) !='6':
     elif user_input == "4":
         watch_movie()
     elif user_input == "5":
-        movies = database.get_watched_movies()
-        display_upcoming_movies("Watched", movies)
+        username = input('Username: ')
+        movies = database.get_watched_movies(username)
+        display_watched_movies(username, movies)
     else:
         print("You did not enter a valid selection")
