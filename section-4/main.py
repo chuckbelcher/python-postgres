@@ -23,9 +23,9 @@ def add_movie():
 
 def display_upcoming_movies(heading, movies):
     print(f"{heading} Movies List")
-    for movie in movies:
-        movie_date = datetime.datetime.fromtimestamp(movie[1]).strftime("%b %d %Y")
-        print(f"{movie[0]} - released on {movie_date}")
+    for _id, title, release_date in movies:
+        movie_date = datetime.datetime.fromtimestamp(release_date).strftime("%b %d %Y")
+        print(f"{_id}: {title} - released on {movie_date}")
     print("---\n")
 
 
