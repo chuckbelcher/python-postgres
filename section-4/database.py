@@ -17,6 +17,7 @@ CREATE_WATCHED_TABLE = """CREATE TABLE IF NOT EXISTS watched (
    FOREIGN KEY (user_username) references users(username)
    FOREIGN KEY (movie_id) references movies(id)
 );"""
+CREATE_INDEX_MOVIE_RELEASE = "CREATE INDEX IF NOT EXISTS idx_movies_release ON movies(release_timestamp);"
 
 INSERT_MOVIES = "INSERT INTO movies (title, release_timestamp) VALUES (?, ?)"
 INSERT_USER = "INSERT INTO users (username) VALUES (?)"
@@ -31,7 +32,6 @@ SELECT_WATCHED_MOVIES = """SELECT movies.*
                             JOIN watched ON movies.id = watched.movie_id
                             JOIN users ON users.username = watched.user_username
                             WHERE users.username = ?;"""
-CREATE_INDEX_MOVIE_RELEASE = "CREATE INDEX idx_movies_release ON movies(release_timestamp);"
 
 connection = sqlite3.connect("data.db")
 
