@@ -31,22 +31,28 @@ SELECT_WATCHED_MOVIES = """SELECT movies.*
                             JOIN watched ON movies.id = watched.movie_id
                             JOIN users ON users.username = watched.user_username
                             WHERE users.username = ?;"""
+CREATE_INDEX_MOVIE_RELEASE = "CREATE INDEX idx_movies_release ON movies(release_timestamp);"
 
 connection = sqlite3.connect("data.db")
+
 
 def create_tables():
     with connection:
         connection.execute(CREATE_MOVIES_TABLE)
         connection.execute(CREATE_USERS_TABLE)
         connection.execute(CREATE_WATCHED_TABLE)
+        connection.execute(CREATE_INDEX_MOVIE_RELEASE)
+
 
 def add_user(username):
     with connection:
         connection.execute(INSERT_USER, (username,))
 
+
 def add_movie(title, release_timestamp):
     with connection:
         connection.execute(INSERT_MOVIES, (title, release_timestamp))
+
 
 def get_movies(upcoming=False):
     with connection:
@@ -58,22 +64,26 @@ def get_movies(upcoming=False):
             cursor.execute(SELECT_ALL_MOVIES)
         return cursor.fetchall()
 
+
 def search_movies(movie):
     with connection:
         cursor = connection.cursor()
         cursor.execute(SEARCH_MOVIES, (f'%{movie}%',))
         return cursor.fetchall()
 
+
 def watch_movie(username, movie_id):
     with connection:
         connection.execute(INSERT_WATCHED_MOVIES, (username, movie_id))
+
 
 def get_watched_movies(username):
     with connection:
         cursor = connection.cursor()
         cursor.execute(SELECT_WATCHED_MOVIES, (username,))
         return cursor.fetchall()
-    
+
+
 def delete_movie(title):
     with connection:
         connection.execute(DELETE_MOVIE, (title,))
