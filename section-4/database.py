@@ -21,6 +21,7 @@ CREATE_WATCHED_TABLE = """CREATE TABLE IF NOT EXISTS watched (
 INSERT_MOVIES = "INSERT INTO movies (title, release_timestamp) VALUES (?, ?)"
 INSERT_USER = "INSERT INTO users (username) VALUES (?)"
 DELETE_MOVIE = "DELETE FROM movies WHERE title = ?;"
+SEARCH_MOVIES = "SELECT * FROM movies WHERE title like ?;"
 SELECT_ALL_MOVIES = "SELECT * FROM movies;"
 SELECT_UPCOMING_MOVIES = "SELECT * FROM movies where release_timestamp > ?;"
 INSERT_WATCHED_MOVIES = "INSERT INTO watched (user_username, movie_id) VALUES (?, ?)"
@@ -55,6 +56,12 @@ def get_movies(upcoming=False):
             cursor.execute(SELECT_UPCOMING_MOVIES, (today_timestamp,))
         else:
             cursor.execute(SELECT_ALL_MOVIES)
+        return cursor.fetchall()
+
+def search_movies(movie):
+    with connection:
+        cursor = connection.cursor()
+        cursor.execute(SEARCH_MOVIES, (f'%{movie}%',))
         return cursor.fetchall()
 
 def watch_movie(username, movie_id):
