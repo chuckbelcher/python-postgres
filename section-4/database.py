@@ -17,6 +17,7 @@ CREATE_WATCHED_TABLE = """CREATE TABLE IF NOT EXISTS watched (
    FOREIGN KEY (user_username) references users(username)
    FOREIGN KEY (movie_id) references movies(id)
 );"""
+
 CREATE_INDEX_MOVIE_RELEASE = "CREATE INDEX IF NOT EXISTS idx_movies_release ON movies(release_timestamp);"
 
 INSERT_MOVIES = "INSERT INTO movies (title, release_timestamp) VALUES (?, ?)"
