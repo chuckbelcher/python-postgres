@@ -22,19 +22,13 @@ def add_movie():
     
     database.add_movie(title, timestamp)
 
-def display_upcoming_movies(heading, movies):
+def display_movies(heading, movies):
     print(f"{heading} Movies List")
     for _id, title, release_date in movies:
         movie_date = datetime.datetime.fromtimestamp(release_date).strftime("%b %d %Y")
         print(f"{_id}: {title} - released on {movie_date}")
     print("---\n")
 
-
-def display_watched_movies(username, movies):
-    print(f"{username}'s Watched Movies List")
-    for movie in movies:
-        print(f"{movie[1]}")
-    print("---\n")
 
 def watch_movie():
     username = input("Username: ")
@@ -53,16 +47,19 @@ while (user_input := input(menu)) !='7':
         add_movie()
     elif user_input == "2":
         movies = database.get_movies(True)
-        display_upcoming_movies("Upcoming", movies)
+        display_movies("Upcoming", movies)
     elif user_input == "3":
         movies = database.get_movies()
-        display_upcoming_movies("All", movies)
+        display_movies("All", movies)
     elif user_input == "4":
         watch_movie()
     elif user_input == "5":
         username = input('Username: ')
         movies = database.get_watched_movies(username)
-        display_watched_movies(username, movies)
+        if movies:
+            display_movies(f'{username}\'s', movies)
+        else:
+            print(f'{username} has not watched any movies\n---\n')
     elif user_input == "6":
         add_user()
     else:

@@ -24,8 +24,12 @@ DELETE_MOVIE = "DELETE FROM movies WHERE title = ?;"
 SELECT_ALL_MOVIES = "SELECT * FROM movies;"
 SELECT_UPCOMING_MOVIES = "SELECT * FROM movies where release_timestamp > ?;"
 INSERT_WATCHED_MOVIES = "INSERT INTO watched (user_username, movie_id) VALUES (?, ?)"
-SELECT_WATCHED_MOVIES = "SELECT * FROM watched where user_username = ?;"
 SET_WATCHED_MOVIE = "UPDATE movies SET watched = 1 WHERE title = ?;"
+SELECT_WATCHED_MOVIES = """SELECT movies.*
+                            FROM movies
+                            JOIN watched ON movies.id = watched.movie_id
+                            JOIN users ON users.username = watched.user_username
+                            WHERE users.username = ?;"""
 
 connection = sqlite3.connect("data.db")
 
