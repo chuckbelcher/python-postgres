@@ -41,7 +41,8 @@ def watch_movie():
     movie_id = input("What movie id do you want to watch? ")
     database.watch_movie(username, movie_id)
 
-def add_user(username):
+def add_user():
+    username = input("What is the name of the new user? ")
     database.add_user(username)
 
 print(welcome_message)
@@ -63,7 +64,6 @@ while (user_input := input(menu)) !='7':
         movies = database.get_watched_movies(username)
         display_watched_movies(username, movies)
     elif user_input == "6":
-        username = input("What is the name of the new user? ")
-        add_user(username)
+        add_user()
     else:
         print("You did not enter a valid selection")
