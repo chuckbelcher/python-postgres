@@ -7,7 +7,8 @@ menu = """Please select one of the following options:
  3) View all movies
  4) Watch a movie
  5) View watched movies
- 6) Exit
+ 6) Add new user
+ 7) Exit
  
  Your Selection: """
  
@@ -35,16 +36,18 @@ def display_watched_movies(username, movies):
         print(f"{movie[1]}")
     print("---\n")
 
-
 def watch_movie():
     username = input("Username: ")
-    title = input("What movie do you want to watch? ")
-    database.watch_movie(username, title)
+    movie_id = input("What movie id do you want to watch? ")
+    database.watch_movie(username, movie_id)
+
+def add_user(username):
+    database.add_user(username)
 
 print(welcome_message)
 database.create_tables()
 
-while (user_input := input(menu)) !='6':
+while (user_input := input(menu)) !='7':
     if user_input == "1":
         add_movie()
     elif user_input == "2":
@@ -59,5 +62,8 @@ while (user_input := input(menu)) !='6':
         username = input('Username: ')
         movies = database.get_watched_movies(username)
         display_watched_movies(username, movies)
+    elif user_input == "6":
+        username = input("What is the name of the new user? ")
+        add_user(username)
     else:
         print("You did not enter a valid selection")
